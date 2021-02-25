@@ -1,5 +1,5 @@
 /**
- *          BlockchainController
+ *        BlockchainController
  *       (Do not change this code)
  * 
  * This class expose the endpoints that the client applications will use to interact with the 
@@ -54,7 +54,7 @@ class BlockchainController {
         });
     }
 
-    // Endpoint that allow Submit a Star, yu need first to `requestOwnership` to have the message (POST endpoint)
+    // Endpoint that allow Submit a Star, you need first to `requestOwnership` to have the message (POST endpoint)
     submitStar() {
         this.app.post("/submitstar", async (req, res) => {
             if(req.body.address && req.body.message && req.body.signature && req.body.star) {
