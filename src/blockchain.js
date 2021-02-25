@@ -8,6 +8,9 @@
  *
  */
 
+ /** Some of the codes written in this file were gotten from https://github.com/udacity/nd1309_Project1_v2,
+  *  I used some of the functions created by a former Udacity Nanodegree Student*/
+
 const SHA256 = require("crypto-js/sha256");
 const BlockClass = require("./block.js");
 const bitcoinMessage = require("bitcoinjs-message");
@@ -63,25 +66,25 @@ class Blockchain {
   _addBlock(block) {
     let self = this;
     return new Promise(async (resolve, reject) => {
-      let blockObj = block;
+      let blockObject = block;
       let height = await self.getChainHeight();
-      blockObj.time = new Date().getTime().toString().slice(0, -3);
+      blockObject.time = new Date().getTime().toString().slice(0, -3);
       if (height >= 0) {
-        blockObj.height = height + 1;
+        blockObject.h = height + 1;
         let previousBlock = self.chain[self.height];
-        blockObj.previousBlockHash = previousBlock.hash;
+        blockObject.previousBlockHash = previousBlock.hash;
         // Verify signature
-        blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
-        self.chain.push(blockObj);
+        blockObject.hash = SHA256(JSON.stringify(blockObject)).toString();
+        self.chain.push(blockObject);
         self.height = self.chain.length - 1;
-        resolve(blockObj);
+        resolve(blockObject);
       } else {
         // Only for the Genesis Block
-        blockObj.height = height + 1;
-        blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
-        self.chain.push(blockObj);
+        blockObject.height = height + 1;
+        blockObject.hash = SHA256(JSON.stringify(blockObject)).toString();
+        self.chain.push(blockObject);
         self.height = self.chain.length - 1;
-        resolve(blockObj);
+        resolve(blockObject);
       }
     });
   }
@@ -137,7 +140,7 @@ class Blockchain {
           reject("Your signature is not valid");
         }
       } else {
-        reject("You should submit the star before 5 minutes");
+        reject("Your star should be submitted before 5 minutes");
       }
     });
   }
