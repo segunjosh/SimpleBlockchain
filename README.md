@@ -193,9 +193,9 @@ You should see in your terminal a message indicating that the server is listenin
     ![Request: http://localhost:8000/block/0 ](assets/sp1.png)
 3. Make your first request of ownership sending your wallet address:
     ![Request: http://localhost:8000/requestValidation ](assets/sp2.png)
-4. Sign the message with your Wallet:
+4. Signing the message with my Wallet:
     ![Use the Wallet to sign a message](assets/sp3.png)
-5. Submit your Star
-     ![Request: http://localhost:8000/submitstar](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca365d3_signing-message/signing-message.png)
-6. Retrieving Stars
-    ![Request: http://localhost:8000/blocks/<WALLET_ADDRESS>](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca362b9_retrieve-stars/retrieve-stars.png)
+5. Submiting my Star
+     ![Request: http://localhost:8000/submitstar](assets/sp4.png)
+6. Retrieving my Stars
+    ![Request: http://localhost:8000/blocks/<WALLET_ADDRESS>](assets/sp5.png)
