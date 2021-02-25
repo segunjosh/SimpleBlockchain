@@ -8,7 +8,7 @@
  *
  */
 
- /** Some of the codes written in this file were gotten from https://github.com/udacity/nd1309_Project1_v2,
+ /** Some of the codes written in this file were gotten from https://github.com/udacity/nd1309_Project1_v2 and the project boilerplate given,
   *  I used some of the functions created by a former Udacity Nanodegree Student*/
 
 const SHA256 = require("crypto-js/sha256");
@@ -66,32 +66,32 @@ class Blockchain {
   _addBlock(block) {
     let self = this;
     return new Promise(async (resolve, reject) => {
-      let blockObject = block;
+      let blockObj = block;
       let height = await self.getChainHeight();
-      blockObject.time = new Date().getTime().toString().slice(0, -3);
+      blockObj.time = new Date().getTime().toString().slice(0, -3);
       if (height >= 0) {
-        blockObject.h = height + 1;
+        blockObj.height = height + 1;
         let previousBlock = self.chain[self.height];
-        blockObject.previousBlockHash = previousBlock.hash;
+        blockObj.previousBlockHash = previousBlock.hash;
         // Verify signature
-        blockObject.hash = SHA256(JSON.stringify(blockObject)).toString();
-        self.chain.push(blockObject);
+        blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
+        self.chain.push(blockObj);
         self.height = self.chain.length - 1;
-        resolve(blockObject);
+        resolve(blockObj);
       } else {
         // Only for the Genesis Block
-        blockObject.height = height + 1;
-        blockObject.hash = SHA256(JSON.stringify(blockObject)).toString();
-        self.chain.push(blockObject);
+        blockObj.height = height + 1;
+        blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
+        self.chain.push(blockObj);
         self.height = self.chain.length - 1;
-        resolve(blockObject);
+        resolve(blockObj);
       }
     });
   }
 
   /**
    * The requestMessageOwnershipVerification(address) method
-   * will allow you  to request a message that you will use to
+   * will allow you to request a message(M) that you will use to
    * sign it with your Bitcoin Wallet (Electrum or Bitcoin Core)
    * This is the first step before submit your Block.
    * The method return a Promise that will resolve with the message to be signed
@@ -109,7 +109,7 @@ class Blockchain {
 
   /**
    * The submitStar(address, message, signature, star) method
-   * will allow users to register a new Block with the star object
+   * will allow users to register a new Block with the star Obj
    * into the chain. This method will resolve with the Block added or
    * reject with an error.
    * Algorithm steps:
@@ -158,13 +158,13 @@ class Blockchain {
       if (block) {
         resolve(block);
       } else {
-        resolve(null);
+        resolve(error);
       }
     });
   }
 
   /**
-   * This method will return a Promise that will resolve with the Block object
+   * This method will return a Promise that will resolve with the Block Obj
    * with the height equal to the parameter `height`
    * @param {*} height
    */
@@ -172,16 +172,15 @@ class Blockchain {
     let self = this;
     return new Promise((resolve, reject) => {
       let block = self.chain.filter((p) => p.height === height)[0];
-      if (block) {
+      if(block){
         resolve(block);
-      } else {
-        resolve(null);
-      }
+    }else
+    reject(error)
     });
   }
 
   /**
-   * This method will return a Promise that will resolve with an array of Stars objects existing in the chain
+   * This method will return a Promise that will resolve with an array of Stars Objs existing in the chain
    * and are belongs to the owner with the wallet address passed as parameter.
    * Remember the star should be returned decoded.
    * @param {*} address
@@ -198,7 +197,11 @@ class Blockchain {
           }
         }
       });
-      resolve(stars);
+      console.log('stars')
+      if(stars){
+          resolve(stars);
+      }else
+      reject(error)
     });
   }
 
@@ -221,7 +224,7 @@ class Blockchain {
           let blockHash = chain[chainIndex - 1].hash;
           if (blockHash != previousBlockHash) {
             errorLog.push(
-              `Error - Block Height: ${block.height} - Previous Hash Does Not Match.`
+              `Error - Block Height: ${block.height} - this does not match with the previous height.`
             );
           }
         }
@@ -233,7 +236,7 @@ class Blockchain {
           results.forEach((valid) => {
             if (!valid) {
               errorLog.push(
-                `Error - Block Height: ${self.chain[chainIndex].height} - Has been Tampered With.`
+                `Error - Block Height: ${self.chain[chainIndex].height} - has been changed.`
               );
             }
             chainIndex++;

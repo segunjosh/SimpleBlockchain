@@ -9,6 +9,9 @@
  *  run asynchronous.
  */
 
+ /** Some of the codes written in this file were gotten from https://github.com/udacity/nd1309_Project1_v2 and the project boilerplate given,
+  *  I used some of the functions created by a former Udacity Nanodegree Student*/
+
 const SHA256 = require("crypto-js/sha256");
 const hex2ascii = require("hex2ascii");
 
