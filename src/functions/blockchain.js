@@ -14,6 +14,8 @@
 const SHA256 = require("crypto-js/sha256");
 const BlockClass = require("./block.js");
 const bitcoinMessage = require("bitcoinjs-message");
+var citation = "Some code in this project was sourced from https://github.com/udacity/nd1309_Project1_v2"
+console.log(citation)
 
 class Blockchain {
   /**
@@ -64,26 +66,26 @@ class Blockchain {
    * that this method is a private method.
    */
   _addBlock(block) {
-    let self = this;
+    let bit = this;
     return new Promise(async (resolve, reject) => {
       let blockObj = block;
-      let height = await self.getChainHeight();
+      let height = await bit.getChainHeight();
       blockObj.time = new Date().getTime().toString().slice(0, -3);
       if (height >= 0) {
         blockObj.height = height + 1;
-        let previousBlock = self.chain[self.height];
+        let previousBlock = bit.chain[bit.height];
         blockObj.previousBlockHash = previousBlock.hash;
         // Verify signature
         blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
-        self.chain.push(blockObj);
-        self.height = self.chain.length - 1;
+        bit.chain.push(blockObj);
+        bit.height = bit.chain.length - 1;
         resolve(blockObj);
       } else {
         // Only for the Genesis Block
         blockObj.height = height + 1;
         blockObj.hash = SHA256(JSON.stringify(blockObj)).toString();
-        self.chain.push(blockObj);
-        self.height = self.chain.length - 1;
+        bit.chain.push(blockObj);
+        bit.height = bit.chain.length - 1;
         resolve(blockObj);
       }
     });
@@ -125,7 +127,7 @@ class Blockchain {
    * @param {*} star
    */
   submitStar(address, message, signature, star) {
-    let self = this;
+    let bit = this;
     return new Promise(async (resolve, reject) => {
       let time = parseInt(message.split(":")[1]);
       let currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
@@ -134,7 +136,7 @@ class Blockchain {
         let isValid = bitcoinMessage.verify(message, address, signature);
         if (isValid) {
           let block = new BlockClass.Block({ owner: address, star: star });
-          let addedBlock = await self._addBlock(block);
+          let addedBlock = await bit._addBlock(block);
           resolve(addedBlock);
         } else {
           reject("Your signature is not valid");
@@ -152,9 +154,9 @@ class Blockchain {
    * @param {*} hash
    */
   getBlockByHash(hash) {
-    let self = this;
+    let bit = this;
     return new Promise((resolve, reject) => {
-      let block = self.chain.filter((p) => p.hash === hash)[0];
+      let block = bit.chain.filter((p) => p.hash === hash)[0];
       if (block) {
         resolve(block);
       } else {
@@ -169,9 +171,9 @@ class Blockchain {
    * @param {*} height
    */
   getBlockByHeight(height) {
-    let self = this;
+    let bit = this;
     return new Promise((resolve, reject) => {
-      let block = self.chain.filter((p) => p.height === height)[0];
+      let block = bit.chain.filter((p) => p.height === height)[0];
       if(block){
         resolve(block);
     }else
@@ -186,10 +188,10 @@ class Blockchain {
    * @param {*} address
    */
   getStarsByWalletAddress(address) {
-    let self = this;
+    let bit = this;
     let stars = [];
     return new Promise((resolve, reject) => {
-      self.chain.forEach((b) => {
+      bit.chain.forEach((b) => {
         let data = b.getBData();
         if (data) {
           if (data.owner === address) {
@@ -211,13 +213,14 @@ class Blockchain {
    * 1. You should validate each block using `validateBlock`
    * 2. Each Block should check the with the previousBlockHash
    */
+
   validateChain() {
-    let self = this;
+    let bit = this;
     let errorLog = [];
     return new Promise(async (resolve, reject) => {
       let promises = [];
       let chainIndex = 0;
-      self.chain.forEach((block) => {
+      bit.chain.forEach((block) => {
         promises.push(block.validate());
         if (block.height > 0) {
           let previousBlockHash = block.previousBlockHash;
@@ -236,7 +239,7 @@ class Blockchain {
           results.forEach((valid) => {
             if (!valid) {
               errorLog.push(
-                `Error - Block Height: ${self.chain[chainIndex].height} - has been changed.`
+                `Error - Block Height: ${bit.chain[chainIndex].height} - has been changed.`
               );
             }
             chainIndex++;

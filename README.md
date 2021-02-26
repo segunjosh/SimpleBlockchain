@@ -7,6 +7,7 @@
 
 4. I have tested all endpoints and they work inline with the Project spcifications.
 
+I have accepted the warning of palgarism and I have adjusted some of the functions cited from my source to suit my own original algorithm.
 ## These are screenshots taken from my laptop when running Bitocin Core on Testnet and POSTMAN?
 
 1. Run the application using the command `node app.js`
@@ -23,3 +24,5 @@ You should see in your terminal a message indicating that the server is listenin
      ![Request: http://localhost:8000/submitstar](assets/sp4.png)
 6. Retrieving my Stars
     ![Request: http://localhost:8000/blocks/<WALLET_ADDRESS>](assets/sp5.png)
+
+    ALl my work on this project is reference to  https://github.com/udacity/nd1309_Project1_v2
